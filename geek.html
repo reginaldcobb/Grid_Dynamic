@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>JS CreateElement Demo</title>
+</head>
+
+<body>
+    <script>
+        var gridID;
+        var row;
+        var col;
+        var row_string;
+        var col_string;
+
+        let rows = 10;
+        let columns = 10;
+
+        // let div = document.createElement('div');
+
+        for (i = 1; i <= rows; i++) {
+            row = i;
+            row_string = row.toString();
+
+            for (j = 1; j <= (columns); j++) {
+
+                col = j;
+                col_string = col.toString();
+                gridID = row_string.concat("-");
+                gridID = gridID.concat(col_string);
+                let div = document.createElement('div');
+                div.setAttribute("onclick", "checkGrid(this.id)");
+                div.id = gridID;
+                div.innerHTML = gridID;
+                // document.body.appendChild(div)
+                div.className = "box spacing";
+
+                if (j == columns) {
+                    div.className = "box ";
+                }
+                else if (j < columns) {
+                    div.className = "box spacing";
+                }
+
+                document.querySelector('body').appendChild(div);
+                console.log(gridID);
+            }
+            let div = document.createElement('div');
+                    div.className = "end";
+            document.querySelector('body').appendChild(div);
+
+
+        }
+    </script>
+    <style>
+        strong {
+            font-weight: bold;
+            font-size: 20px;
+            color: #ff3c00;
+        }
+
+        body {
+            margin: 10px;
+            padding: 0;
+        }
+
+        .container {
+            overflow: hidden;
+            width: 350px;
+            display: flex;
+            /* width: 100%; */
+        }
+
+        .box {
+            width: 50px;
+            height: 50px;
+            float: left;
+            background-color: #ccc;
+            margin-bottom: 10px;
+            text-align: center;
+            line-height: 50px;
+        }
+
+        .box:hover {
+            background-color: #EBEBEB;
+        }
+
+        .spacing {
+            margin-right: 10px;
+        }
+
+        .end {
+            clear: both;
+        }
+
+        /* .column {
+                float: left;
+                width: 50%;
+            } */
+
+        @media screen and (max-width: 600px) {
+            .column {
+                width: 100%;
+            }
+        }
+
+        /* Clear floats after the columns */
+        /* .row:after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+
+        .row {
+            display: flex;
+        }
+
+        .column {
+            flex: 50%;
+        } */
+    </style>
+
+</body>
+
+</html>

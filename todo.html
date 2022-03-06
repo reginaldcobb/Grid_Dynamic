@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <title>Feedback</title>
+    <!-- <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta name="robots" content="noindex, nofollow">
+    <meta name="googlebot" content="noindex, nofollow"> -->
+    <!-- <meta name="viewport" content="width=device-width, initial-scale=1"> -->
+
+
+    <!-- <script type="text/javascript" src="/js/lib/dummy.js"></script> -->
+
+    <!-- <link rel="stylesheet" type="text/css" href="/css/result-light.css"> -->
+
+
+    <style id="compiled-css" type="text/css">
+        html {
+            box-sizing: border-box;
+        }
+
+
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: inherit;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family:
+                -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans,
+                Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;
+            line-height: 1.4;
+        }
+
+        .container1 {
+            width: 100%;
+            max-width: 500px;
+            margin: 0 auto;
+            padding-left: 10px;
+            padding-right: 10px;
+            color: #333;
+            height: 90vh;
+            margin-top: 5vh;
+            margin-bottom: 5vh;
+            overflow-y: auto;
+        }
+
+        .app-title {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 20px;
+            opacity: 0.5;
+        }
+
+
+        svg {
+            width: 64px;
+            height: 64px;
+        }
+
+        .todo-list {
+            list-style: none;
+            margin-bottom: 20px;
+        }
+
+        .todo-item {
+            margin-bottom: 10px;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .todo-item span {
+            flex-grow: 1;
+            margin-left: 10px;
+            margin-right: 10px;
+            font-size: 18px;
+        }
+
+        .done span {
+            text-decoration: line-through;
+        }
+
+        input[type="checkbox"] {
+            display: none;
+        }
+
+        .tick {
+            width: 30px;
+            height: 30px;
+            border: 3px solid #333;
+            border-radius: 50%;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .tick::before {
+            content: '✓';
+            font-size: 20px;
+            display: none;
+        }
+
+        .done .tick::before {
+            display: inline;
+        }
+
+        .delete-todo {
+            border: none;
+            background-color: transparent;
+            outline: none;
+            cursor: pointer;
+        }
+
+        .delete-todo svg {
+            width: 15px;
+            height: 15px;
+            pointer-events: none;
+        }
+
+        form {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            border-radius: 4px;
+            border: 3px solid #333;
+        }
+
+        /* Add this below all the other styles */
+
+        .empty-state {
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            display: none;
+        }
+
+        .checklist-icon {
+            margin-bottom: 20px;
+        }
+
+        .empty-state__title,
+        .empty-state__description {
+            margin-bottom: 20px;
+        }
+
+        /* Add this below the other styles */
+        .todo-list:empty {
+            display: none;
+        }
+
+        .todo-list:empty+.empty-state {
+            display: flex;
+        }
+
+        /* EOS */
+    </style>
+
+    <script id="insert"></script>
+
+
+</head>
+
+<body>
+    <main>
+        <div class="container1">
+            <h3 class="app-title">Enter Comments, Suggestions, etc. here.</h3>
+            <div class=close_button>
+                <button type="button" onclick="window.close();">Close</button>
+            </div>
+            <form class="js-form">
+                <input autofocus type="text" aria-label="Enter a new todo item"
+                    placeholder="Type here and hit Enter key to submit...." class="js-todo-input">
+            </form>
+            <ul class="todo-list js-todo-list"></ul>
+
+        </div>
+    </main>
+
+    <svg>
+        <defs>
+
+            <symbol id="delete-icon" viewBox="0 0 448 448">
+                <path
+                    d="m224 0c-123.710938 0-224 100.289062-224 224s100.289062 224 224 224 224-100.289062 224-224c-.132812-123.65625-100.34375-223.867188-224-224zm124.449219 325.824219c4.15625 4.015625 5.828125 9.964843 4.363281 15.558593s-5.835938 9.964844-11.429688 11.429688-11.542968-.207031-15.558593-4.363281l-101.824219-101.824219-101.824219 101.824219c-6.277343 6.0625-16.257812 5.976562-22.429687-.195313s-6.257813-16.152344-.195313-22.429687l101.824219-101.824219-101.824219-101.824219c-4.15625-4.015625-5.828125-9.964843-4.363281-15.558593s5.835938-9.964844 11.429688-11.429688 11.542968.207031 15.558593 4.363281l101.824219 101.824219 101.824219-101.824219c6.277343-6.0625 16.257812-5.976562 22.429687.195313s6.257813 16.152344.195313 22.429687l-101.824219 101.824219zm0 0"
+                    fill="#D80027" />
+            </symbol>
+        </defs>
+    </svg>
+
+    <script type="text/javascript">
+
+
+        let todoItems = [];
+
+        function renderTodo(todo) {
+            localStorage.setItem('todoItems', JSON.stringify(todoItems));
+
+            const list = document.querySelector('.js-todo-list');
+            const item = document.querySelector(`[data-key='${todo.id}']`);
+
+            if (todo.deleted) {
+                item.remove();
+                if (todoItems.length === 0) list.innerHTML = '';
+                return
+            }
+
+            const isChecked = todo.checked ? 'done' : '';
+            const node = document.createElement("li");
+            node.setAttribute('class', `todo-item ${isChecked}`);
+            node.setAttribute('data-key', todo.id);
+            node.innerHTML = `
+                    <input id="${todo.id}" type="checkbox"/>
+                    <span>${todo.text}</span>
+                    <button class="delete-todo js-delete-todo">
+                        <svg><use href="#delete-icon"></use></svg>
+                    </button>
+                `;
+
+            if (item) {
+                list.replaceChild(node, item);
+            } else {
+                list.append(node);
+            }
+        }
+
+        function addTodo(text) {
+            const todo = {
+                text,
+                checked: false,
+                id: Date.now(),
+            };
+
+            // todoItems.push(todo);
+            todoItems.unshift(todo);
+            renderTodo(todo);
+        }
+
+        function toggleDone(key) {
+            const index = todoItems.findIndex(item => item.id === Number(key));
+            todoItems[index].checked = !todoItems[index].checked;
+            renderTodo(todoItems[index]);
+        }
+
+        function deleteTodo(key) {
+            const index = todoItems.findIndex(item => item.id === Number(key));
+            const todo = {
+                deleted: true,
+                ...todoItems[index]
+            };
+            todoItems = todoItems.filter(item => item.id !== Number(key));
+            renderTodo(todo);
+        }
+
+        const form = document.querySelector('.js-form');
+        form.addEventListener('submit', event => {
+            event.preventDefault();
+            const input = document.querySelector('.js-todo-input');
+
+            const text = input.value.trim();
+            if (text !== '') {
+                addTodo(text);
+                input.value = '';
+                input.focus();
+            }
+        });
+
+        const list = document.querySelector('.js-todo-list');
+        list.addEventListener('click', event => {
+            if (event.target.classList.contains('js-tick')) {
+                const itemKey = event.target.parentElement.dataset.key;
+                toggleDone(itemKey);
+            }
+
+            if (event.target.classList.contains('js-delete-todo')) {
+                const itemKey = event.target.parentElement.dataset.key;
+                deleteTodo(itemKey);
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const ref = localStorage.getItem('todoItems');
+            if (ref) {
+                todoItems = JSON.parse(ref);
+                todoItems.forEach(t => {
+                    renderTodo(t);
+                });
+            }
+        });
+
+
+    </script>
+
+
+
+</body>
+
+</html>

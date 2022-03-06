@@ -1,0 +1,126 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title>jQuery – Todo List with Local Storage</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="googlebot" content="noindex, nofollow">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+  <script
+    type="text/javascript"
+    src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"
+    
+  ></script>
+    <link rel="stylesheet" type="text/css" href="/css/normalize.css">
+
+    <link rel="stylesheet" type="text/css" href="/css/result-light.css">
+
+
+  <style id="compiled-css" type="text/css">
+      h1 {
+    font-size: 1.5em;
+}
+ul {
+    padding: 10px;
+}
+.done {
+    text-decoration: line-through;
+}
+
+    /* EOS */
+  </style>
+
+  <script id="insert"></script>
+
+
+</head>
+<body>
+    <h1>TodoList</h1>
+<input type='text' id='name' placeholder='New Task'>
+<a href='#' id='add-btn'>Add Task</a>
+<ul id='list'>
+</ul>
+
+
+    <script type="text/javascript">//<![CDATA[
+
+
+function appendTaskToList(val) {
+    $('#list').append("<li>" + val + "  <a href='#' class='done-btn'>Done</a> <a href='#' class='cancel-btn'>Cancel Task</a></li>");
+}
+
+
+if (localStorage['tasks']) {
+    var tasks = JSON.parse(localStorage['tasks']);
+}else {
+    var tasks = [];
+}
+
+for(var i=0;i<tasks.length;i++) {
+    appendTaskToList(tasks[i]);
+}
+
+var addTask = function(){
+    // get value from #name input
+    var val = $('#name').val();
+    
+    // add the task to the array
+    tasks.push(val);
+    
+    // save to local storage
+    localStorage["tasks"] = JSON.stringify(tasks);
+    
+    // append the name to the list
+    appendTaskToList(val);
+    
+    // reset the input field and focus it.
+    $('#name').val("").focus();
+}
+
+$('#add-btn').click(addTask);
+$('#name').keyup(function(e){
+    if (e.keyCode === 13) {
+        addTask();
+    }
+});
+
+
+// approach 1
+/*$('.done-btn').click(function(){
+    $(this).parent('li').addClass('done');
+});*/
+
+// correct approach
+$('.done-btn').live( 'click', function() {
+  $(this).parent('li').addClass('done');
+});    
+    
+$('.cancel-btn').live( 'click', function() {
+  $(this).parent('li').fadeOut();
+});    
+    
+   
+
+
+  //]]></script>
+
+  <script>
+    // tell the embed parent frame the height of the content
+    if (window.parent && window.parent.parent){
+      window.parent.parent.postMessage(["resultsFrame", {
+        height: document.body.getBoundingClientRect().height,
+        slug: "ZpZFE"
+      }], "*")
+    }
+
+    // always overwrite window.name, in case users try to set it manually
+    window.name = "result"
+  </script>
+
+
+</body>
+</html>

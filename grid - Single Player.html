@@ -1,0 +1,489 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Grid</title>
+<style>
+body {
+	margin: 10px;
+	padding: 0;
+}
+.container {
+	overflow: hidden;
+	width: 350px;
+}
+.box {
+	width: 50px;
+	height: 50px;
+	float: left;
+	background-color: #ccc;
+	margin-bottom: 10px;
+	text-align: center;
+	line-height: 50px;
+}
+.box:hover {
+	background-color: #EBEBEB;
+}
+.spacing {
+	margin-right: 10px;
+}
+</style>
+</head>
+
+<body>
+<div class="container">
+  <div onclick="checkGrid(this.id)"  id="1-1" class="box spacing"></div>
+  <div onclick="checkGrid(this.id)"  id="1-2" class="box spacing"></div>
+  <div onclick="checkGrid(this.id)"  id="1-3" class="box spacing"></div>
+  <div onclick="checkGrid(this.id)"  id="1-4" class="box spacing"></div>
+  <div onclick="checkGrid(this.id)"  id="1-5" class="box spacing"></div>
+  <div onclick="checkGrid(this.id)"  id="1-6" class="box"></div>
+  
+  <div onclick="checkGrid(this.id)"  id="2-1" class="box spacing"></div>
+  <div onclick="checkGrid(this.id)"  id="2-2"class="box spacing"></div>
+  <div onclick="checkGrid(this.id)"  id="2-3"class="box spacing"></div>
+  <div onclick="checkGrid(this.id)"  id="2-4"class="box spacing"></div>
+  <div onclick="checkGrid(this.id)"  id="2-5"class="box spacing"></div>
+  <div onclick="checkGrid(this.id)"  id="2-6"class="box"></div>
+  <div onclick="checkGrid(this.id)"  id="3-1"class="box spacing"></div>
+  <div onclick="checkGrid(this.id)"  id="3-2"class="box spacing"></div>
+  <div onclick="checkGrid(this.id)"  id="3-3"class="box spacing"></div>
+  <div onclick="checkGrid(this.id)"  id="3-4"class="box spacing"></div>
+  <div onclick="checkGrid(this.id)"  id="3-5"class="box spacing"></div>
+  <div onclick="checkGrid(this.id)"  id="3-6"class="box"></div>
+  <div onclick="checkGrid(this.id)"  id="4-1"class="box spacing"></div>
+  <div onclick="checkGrid(this.id)"  id="4-2"class="box spacing"></div>
+  <div onclick="checkGrid(this.id)"  id="4-3"class="box spacing"></div>
+  <div onclick="checkGrid(this.id)"  id="4-4"class="box spacing"></div>
+  <div onclick="checkGrid(this.id)"  id="4-5"class="box spacing"></div>
+  <div onclick="checkGrid(this.id)"  id="4-6"class="box"></div>
+  <div onclick="checkGrid(this.id)"  id="5-1"class="box spacing"></div>
+  <div onclick="checkGrid(this.id)"  id="5-2"class="box spacing"></div>
+  <div onclick="checkGrid(this.id)"  id="5-3"class="box spacing"></div>
+  <div onclick="checkGrid(this.id)"  id="5-4"class="box spacing"></div>
+  <div onclick="checkGrid(this.id)"  id="5-5"class="box spacing"></div>
+  <div onclick="checkGrid(this.id)"  id="5-6"class="box"></div>
+  <div onclick="checkGrid(this.id)"  id="6-1"class="box spacing"></div>
+  <div onclick="checkGrid(this.id)"  id="6-2"class="box spacing"></div>
+  <div onclick="checkGrid(this.id)"  id="6-3"class="box spacing"></div>
+  <div onclick="checkGrid(this.id)"  id="6-4"class="box spacing"></div>
+  <div onclick="checkGrid(this.id)"  id="6-5"class="box spacing"></div>
+  <div onclick="checkGrid(this.id)"  id="6-6"class="box"></div>
+</div>
+<button  onclick=startGame() id="startGame">Start Game</button>
+<strong><p id="target" ></p></strong>
+Play <input type="text" id="playValue" maxlength="2" size="3">
+
+<p id="player1label">Player 1</p> <input type="text" id="player1Label" maxlength="2" size="3">
+
+
+<p id="player2label">Player 2</p>
+<input type="text" id="player2Label" maxlength="2" size="3">
+
+
+<!-- <button onclick="getValue()" >Get New Value</button><br>    --> 
+
+<script type="text/javascript">
+// Declare Global variables
+var player1 = true;
+var player2 = false;
+var player1Score = 0;
+var player2Score = 0;
+
+// declare size of grid
+var gridSize = 6 ;
+
+// set color for squared that have scored
+// Color string var for other browser (Chrome 17.0.963.56 and Firefox 8.0 tested)
+var colorToCompare = "rgb(230, 0, 0)";
+// IE 7 output the hex value
+if (navigator.appName === "Microsoft Internet Explorer"){
+	colorToCompare = "#e60000";
+}
+
+// set color for squared that have played
+// Color string var for other browser (Chrome 17.0.963.56 and Firefox 8.0 tested)
+var colorForPlay = "rgb(144, 238, 144)";
+// IE 7 output the hex value
+if (navigator.appName === "Microsoft Internet Explorer"){
+	colorForPlay = "#90ee90";
+}
+
+// set color for square background
+// Color string var for other browser (Chrome 17.0.963.56 and Firefox 8.0 tested)
+var colorForBackground = "rgb(214, 214, 214)";
+// IE 7 output the hex value
+if (navigator.appName === "Microsoft Internet Explorer"){
+	colorForBackground = "#d6d6d6";
+}
+
+function scoreGrid(value) {
+	console.log("at scoreGrid");
+	console.log(player1Score);
+	console.log(player2Score);
+	console.log(value);
+	console.log(player1);
+	
+	if (player1) {
+		player1Score = player1Score + value;
+		document.getElementById("player1Label").value = player1Score ;
+	}
+	else {
+		player2Score = player2Score + value;
+		document.getElementById("player2Label").value = player2Score ;
+	}
+}
+
+function changeTurn() {
+	console.log("at changeTurn");
+/*
+	if (player1) {
+		player1 = false;
+		player2 = true;
+		player2label.style.fontWeight = 'bold';
+		player1label.style.fontWeight = 'normal';
+		return player2;
+	}
+	else {
+		player1 = true;
+		player2 = false;
+		player1label.style.fontWeight = 'bold';
+		player2label.style.fontWeight = 'normal';
+		return player1;
+	}*/
+// Always select player 1
+		player1 = true;
+		player2 = false;
+		player1label.style.fontWeight = 'bold';
+		player2label.style.fontWeight = 'normal';
+		return player1;
+
+
+}
+
+function currentPlayer() {
+	console.log("at currentPlayer");
+	if (player1) {
+		return player1;
+	}
+	else {
+		return player2;
+	}
+	console.log(player1);
+	console.log(player2);
+}
+
+
+function getValue() {
+//	document.getElementById("playValue").value = Math.floor((Math.random() * 4) + 1) ;
+	return Math.floor((Math.random() * (gridSize-2)) + 1) ;
+}
+function checkGrid(gridID) {
+	
+	// if grid square already scored  then do not allow it to be set
+	if (document.getElementById(gridID).style.backgroundColor != colorToCompare) {
+		
+	// if grid square already contains a value then do not allow it to be reset
+	  if (document.getElementById(gridID).innerHTML == "" ) {
+		  // set the currently clicked grid square to the Play Value
+		  document.getElementById(gridID).innerHTML = document.getElementById("playValue").value;
+		  // set background 
+		  document.getElementById(gridID).style.backgroundColor = colorForPlay;
+		  // Check if grid square up sum to Target value
+		  checkUp(gridID);
+		  checkDown(gridID);
+		  checkLeft(gridID);
+		  checkRight(gridID);		 
+		  changeTurn();
+		  // get the next Play Value
+		  document.getElementById("playValue").value = getValue();
+	  }
+	}
+}
+
+function colorSquareRight(selected_row, start_col, end_col) {
+	
+	var row;
+	var gridID;
+	var s_col;
+	var e_col;
+	var col;
+	console.log("at colorSquareRight");
+	console.log(start_col);
+	console.log(end_col);
+	
+	//convert indices to int
+	s_col = parseInt(start_col, 10);
+	e_col = parseInt(end_col,10);
+	row = parseInt(selected_row,10);
+	// set all scored squares to block
+	for (col = (s_col+1); col <= e_col; col++) {
+		gridID =  row.toString().concat("-");
+		gridID = gridID.concat(col);
+		console.log(gridID);
+		document.getElementById(gridID).innerHTML = "";
+		document.getElementById(gridID).style.backgroundColor = colorToCompare;
+	}
+}
+
+function checkRight(gridID) {
+	var sum = 0;
+	var selected_row = gridID.slice(0, gridID.indexOf("-"));
+	var selected_column = gridID.charAt( (gridID.indexOf("-")+1) );
+	//convert indices to int
+	var row = parseInt(selected_row, 10);
+	var col = parseInt(selected_column,10);
+	console.log("at checkLeft");
+	console.log(row);
+	console.log(col);
+	
+	do {
+		if (document.getElementById(gridID).innerHTML != "") {
+			sum = sum + parseInt(document.getElementById(gridID).innerHTML,10);
+			console.log("sum =");
+			console.log(sum);
+
+			if (sum == document.getElementById("target").innerHTML) {
+				colorSquareRight(row, selected_column, col);
+				console.log("sum =");
+				console.log(sum);
+				// add code here to update score
+				scoreGrid(sum);
+				
+			}	
+			col = col + 1 ;	
+			gridID =  row.toString().concat("-");
+			gridID = gridID.concat(col);			
+		}		
+	}
+	while ((col <= gridSize) && (document.getElementById(gridID).innerHTML != "") && (sum != parseInt(document.getElementById("target").innerHTML, 10)));
+}
+
+function colorSquareLeft(selected_row, start_col, end_col) {
+	
+	var row;
+	var gridID;
+	var s_col;
+	var e_col;
+	var col;
+	console.log("at colorSquareLeft");
+	
+	//convert indices to int
+	s_col = parseInt(start_col, 10);
+	e_col = parseInt(end_col,10);
+	row = parseInt(selected_row,10);
+	// set all scored squares to block
+	for (col = (s_col-1); col >= e_col; col--) {
+		gridID =  row.toString().concat("-");
+		gridID = gridID.concat(col);
+		console.log(gridID);
+		document.getElementById(gridID).innerHTML = "";
+		document.getElementById(gridID).style.backgroundColor = colorToCompare;
+	}
+}
+
+function checkLeft(gridID) {
+	var sum = 0;
+	var selected_row = gridID.slice(0, gridID.indexOf("-"));
+	var selected_column = gridID.charAt( (gridID.indexOf("-")+1) );
+	//convert indices to int
+	var row = parseInt(selected_row, 10);
+	var col = parseInt(selected_column,10);
+	console.log("at checkLeft");
+	console.log(row);
+	console.log(col);
+	
+	do {
+		if (document.getElementById(gridID).innerHTML != "") {
+			sum = sum + parseInt(document.getElementById(gridID).innerHTML,10);
+			console.log("sum =");
+			console.log(sum);
+
+			if (sum == document.getElementById("target").innerHTML) {
+				colorSquareLeft(row, selected_column, col);
+				console.log("sum =");
+				console.log(sum);
+				// add code here to update score
+				scoreGrid(sum);
+				
+			}	
+			col = col - 1 ;	
+			gridID =  row.toString().concat("-");
+			gridID = gridID.concat(col);			
+		}		
+	}
+	while ((col > 0) && (document.getElementById(gridID).innerHTML != "") && (sum != parseInt(document.getElementById("target").innerHTML, 10)));
+}
+
+function colorSquareUp(start_row, end_row, column) {
+	
+	var row;
+	var gridID;
+	var s_row;
+	var e_row;
+	var col;
+	
+	//convert indices to int
+	s_row = parseInt(start_row, 10);
+	e_row = parseInt(end_row,10);
+	col = parseInt(column,10);
+	// set all scored squares to block
+	for (row = (s_row-1); row >= e_row; row--) {
+		
+		gridID =  row.toString().concat("-");
+		gridID = gridID.concat(col);
+		document.getElementById(gridID).innerHTML = "";
+		document.getElementById(gridID).style.backgroundColor = colorToCompare;
+	}
+}
+
+
+function checkUp(gridID) {
+	var sum = 0;
+	var selected_row = gridID.slice(0, gridID.indexOf("-"));
+	var selected_column = gridID.charAt( (gridID.indexOf("-")+1) );
+	//convert indices to int
+	var row = parseInt(selected_row, 10);
+	var col = parseInt(selected_column,10);
+	
+	do {
+		if (document.getElementById(gridID).innerHTML != "") {
+			sum = sum + parseInt(document.getElementById(gridID).innerHTML,10);
+
+			if (sum == document.getElementById("target").innerHTML) {
+				colorSquareUp(selected_row, row, selected_column);
+				console.log("sum =");
+				console.log(sum);
+				// add code here to update score
+				scoreGrid(sum);
+				
+			}	
+			row = row - 1 ;	
+			gridID =  row.toString().concat("-");
+			gridID = gridID.concat(selected_column);			
+		}		
+	}
+	while ((row > 0) && (document.getElementById(gridID).innerHTML != "") && (sum != parseInt(document.getElementById("target").innerHTML, 10)));
+}
+
+function colorSquareDown(start_row, end_row, column) {
+	
+	var row;
+	var gridID;
+	var s_row;
+	var e_row;
+	var col;
+	
+	//convert indices to int
+	s_row = parseInt(start_row, 10);
+	e_row = parseInt(end_row,10);
+	col = parseInt(column,10);
+	console.log("at colorSquareDown");
+	console.log(s_row);
+	console.log(e_row);
+	
+	// set all scored squares to block
+	for (row = s_row+1; row < e_row; row++) {
+		console.log("at colorSquareDown for loop");
+		console.log(row);
+		gridID =  row.toString().concat("-");
+		gridID = gridID.concat(col);
+		document.getElementById(gridID).innerHTML = "";
+		document.getElementById(gridID).style.backgroundColor = colorToCompare;
+	}
+}
+
+function checkDown(gridID) {
+	var sum = 0;
+	var selected_row = gridID.slice(0, gridID.indexOf("-"));
+	var selected_column = gridID.charAt( (gridID.indexOf("-")+1) );
+	
+	//convert indices to int
+	var row = parseInt(selected_row, 10) + 1 ;
+	var col = parseInt(selected_column,10);
+//	sum = sum + parseInt(document.getElementById(gridID).innerHTML,10);
+
+	do {
+		if (document.getElementById(gridID).innerHTML != "") {
+			sum = sum + parseInt(document.getElementById(gridID).innerHTML,10);
+			if (sum == document.getElementById("target").innerHTML) {
+				colorSquareDown(selected_row, row, selected_column);
+				console.log("sum =");
+				console.log(sum);
+				// add code here to update score
+				scoreGrid(sum);
+			}	
+			gridID =  row.toString().concat("-");
+			gridID = gridID.concat(selected_column);			
+			row = row + 1 ;	
+		}		
+	}
+	while ((row <= gridSize) && (document.getElementById(gridID).innerHTML != "") && (sum != parseInt(document.getElementById("target").innerHTML, 10)));
+}
+
+
+function clearBoard() {
+	var gridID ;
+	var row;
+	var col;
+	var row_string;
+	var col_string; 
+	
+	for (i = 1; i <= gridSize; i++) {
+		row = i ;
+		row_string = row.toString();
+		for (j = 1; j <= gridSize; j++) {
+			col = j ;
+			col_string = col.toString() ;
+			gridID = row_string.concat("-");
+			gridID = gridID.concat(col_string);
+			document.getElementById(gridID).innerHTML = "";
+			document.getElementById(gridID).style.backgroundColor = colorForBackground;
+		}
+	}
+}
+
+function startBoard() {
+	
+	var gridID ;
+	var numSeed = Math.floor((Math.random() * (gridSize-2)) + 1) ;
+	var row;
+	var col;
+	var row_string;
+	var col_string; 
+	
+	// Clear all grid squares
+	clearBoard() ;
+	
+	// Initialize each of the seed grid squares
+	for (i = 1; i <= numSeed; i++) {
+		row = Math.floor((Math.random() * (gridSize-2)) + 1) ;
+		row_string = row.toString();
+		col = Math.floor((Math.random() * (gridSize-2)) + 1) ;
+		col_string = col.toString() ;
+		gridID = row_string.concat("-");
+		gridID = gridID.concat(col_string);
+		document.getElementById(gridID).innerHTML = Math.floor((Math.random() * (gridSize-2)) + 1);
+    	document.getElementById(gridID).style.backgroundColor = colorForPlay;
+	}
+
+}
+
+function startGame() {
+	// Start game by clearing and seeding the board
+	startBoard();
+
+	// Initialize the first number to be played
+	document.getElementById("playValue").value = getValue();
+	
+	// Set the Target Value
+	document.getElementById("target").innerHTML = Math.floor((Math.random() * (((gridSize-3) * gridSize) / 2) ) + 4)
+}
+
+// Begin
+
+	//Start game by clearing and seeding the board
+	startGame() ;
+ </script>
+</body>
+</html>

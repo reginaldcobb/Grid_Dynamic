@@ -1,0 +1,90 @@
+<!-- This is the new attempt at Grid -->
+<!doctype html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>Grid</title>
+	<link rel=stylesheet type="text/css" href="grid-recursive.css">
+	<script type="text/javascript" src="grid-recursive.js"></script>
+
+</head>
+
+<body>
+
+	<div class="container">
+		<div onclick="checkGrid(this.id)" id="1-1" class="griditem"></div>
+		<div onclick="checkGrid(this.id)" id="1-2" class="griditem"></div>
+		<div onclick="checkGrid(this.id)" id="1-3" class="griditem"></div>
+		<div onclick="checkGrid(this.id)" id="1-4" class="griditem"></div>
+		<div onclick="checkGrid(this.id)" id="1-5" class="griditem"></div>
+		<div onclick="checkGrid(this.id)" id="1-6" class="griditem"></div>
+
+		<div onclick="checkGrid(this.id)" id="2-1" class="griditem"></div>
+		<div onclick="checkGrid(this.id)" id="2-2" class="griditem"></div>
+		<div onclick="checkGrid(this.id)" id="2-3" class="griditem"></div>
+		<div onclick="checkGrid(this.id)" id="2-4" class="griditem"></div>
+		<div onclick="checkGrid(this.id)" id="2-5" class="griditem"></div>
+		<div onclick="checkGrid(this.id)" id="2-6" class="griditem"></div>
+
+		<div onclick="checkGrid(this.id)" id="3-1" class="griditem"></div>
+		<div onclick="checkGrid(this.id)" id="3-2" class="griditem"></div>
+		<div onclick="checkGrid(this.id)" id="3-3" class="griditem"></div>
+		<div onclick="checkGrid(this.id)" id="3-4" class="griditem"></div>
+		<div onclick="checkGrid(this.id)" id="3-5" class="griditem"></div>
+		<div onclick="checkGrid(this.id)" id="3-6" class="griditem"></div>
+
+		<div onclick="checkGrid(this.id)" id="4-1" class="griditem"></div>
+		<div onclick="checkGrid(this.id)" id="4-2" class="griditem"></div>
+		<div onclick="checkGrid(this.id)" id="4-3" class="griditem"></div>
+		<div onclick="checkGrid(this.id)" id="4-4" class="griditem"></div>
+		<div onclick="checkGrid(this.id)" id="4-5" class="griditem"></div>
+		<div onclick="checkGrid(this.id)" id="4-6" class="griditem"></div>
+
+		<div onclick="checkGrid(this.id)" id="5-1" class="griditem"></div>
+		<div onclick="checkGrid(this.id)" id="5-2" class="griditem"></div>
+		<div onclick="checkGrid(this.id)" id="5-3" class="griditem"></div>
+		<div onclick="checkGrid(this.id)" id="5-4" class="griditem"></div>
+		<div onclick="checkGrid(this.id)" id="5-5" class="griditem"></div>
+		<div onclick="checkGrid(this.id)" id="5-6" class="griditem"></div>
+
+		<div onclick="checkGrid(this.id)" id="6-1" class="griditem"></div>
+		<div onclick="checkGrid(this.id)" id="6-2" class="griditem"></div>
+		<div onclick="checkGrid(this.id)" id="6-3" class="griditem"></div>
+		<div onclick="checkGrid(this.id)" id="6-4" class="griditem"></div>
+		<div onclick="checkGrid(this.id)" id="6-5" class="griditem"></div>
+		<div onclick="checkGrid(this.id)" id="6-6" class="griditem"></div>
+	</div>
+
+	<div>
+		<button onclick=startGame() id="startGame">New Game</button>
+		<!-- <button  onclick="window.location.href='todo.html';" id="addComment"  target="_blank">Got a Comment, Feedback, etc.?</button> -->
+		<button onclick="window.open('todo.html','_blank');">Feedback or Ideas?</button>
+		<button onclick="window.open('help.html','_blank');">How to Play</button>
+	</div>
+
+	<div>
+		<strong>
+			Target Value:
+			<p id="target"></p>
+		</strong>
+	</div>
+	<div>
+		Number to Play <input type="text" id="playValue" maxlength="2" size="3">
+		<p></p>
+		Score <input type="text" id="player1Label" maxlength="2" size="3">
+		<!-- <p id="player1label">Score</p> <input type="text" id="player1Label" maxlength="2" size="3"> -->
+
+		<!-- <p id="player2label">Player 2</p>
+	<input type="text" id="player2Label" maxlength="2" size="3"> -->
+
+		<!-- <button onclick="getValue()" >Get New Value</button><br>    -->
+	</div>
+	<script>// Begin
+
+		//Start game by clearing and seeding the board
+		startGame();
+	</script>
+</body>
+
+</html>
